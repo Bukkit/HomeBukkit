@@ -1,0 +1,24 @@
+name: HomeBukkit
+main: com.dinnerbone.bukkit.home.HomeBukkit
+version: 0.0.1
+website: http://www.bukkit.org
+author: The Bukkit Team
+database: true
+description: >
+             Basic home functionality.
+             This plugin is one of the default plugins shipped with Bukkit.
+commands:
+  sethome:
+    aliases: [addhome]
+    description: Sets your current position to a home of the given name
+    usage: |
+           /<command> <name> [player]
+           Example: /<command> BeachHouse
+  listhomes:
+    aliases: [homes]
+    description: Lists all homes that you own
+    usage: /<command> [player]
+  gohome:
+    aliases: [home]
+    description: Goes to a home
+    usage: /<command> <name> [player]
