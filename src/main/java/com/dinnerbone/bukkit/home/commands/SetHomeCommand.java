@@ -1,8 +1,11 @@
 
 package com.dinnerbone.bukkit.home.commands;
 
+import com.avaje.ebean.EbeanServer;
 import com.dinnerbone.bukkit.home.Home;
 import com.dinnerbone.bukkit.home.HomeBukkit;
+import java.util.Set;
+import java.util.HashSet;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +14,19 @@ import org.bukkit.entity.Player;
 
 public class SetHomeCommand implements CommandExecutor {
     private final HomeBukkit plugin;
+
+    // Properties the EbeanServer must be told to update.  It
+    // doesn't appear to be smart enough to figure these out on its own.
+    private static final Set<String> updateProps;
+    static {
+        updateProps = new HashSet<String>();
+        updateProps.add("x");
+        updateProps.add("y");
+        updateProps.add("z");
+        updateProps.add("yaw");
+        updateProps.add("pitch");
+        updateProps.add("world_name");
+    }
 
     public SetHomeCommand(HomeBukkit plugin) {
         this.plugin = plugin;
@@ -33,18 +49,34 @@ public class SetHomeCommand implements CommandExecutor {
 
         String name = args[0];
 
-        Home home = plugin.getDatabase().find(Home.class).where().ieq("name", name).ieq("playerName", player.getName()).findUnique();
+        EbeanServer db = plugin.getDatabase();
+        db.beginTransaction();
 
-        if (home == null) {
-            home = new Home();
-            home.setPlayer(player);
-            home.setName(name);
+        try {
+            Home home = db.find(Home.class).where().ieq("name", name).ieq("playerName", player.getName()).findUnique();
+            boolean isUpdate = false;
+
+            if (home == null) {
+                sender.sendMessage(ChatColor.BLUE + "Creating home " + name +  "...");
+
+                home = new Home();
+                home.setPlayer(player);
+                home.setName(name);
+            } else {
+                sender.sendMessage(ChatColor.BLUE + "Updating home " + name + "...");
+
+                isUpdate = true;
+            }
+
+            home.setLocation(((Player)sender).getLocation());
+
+            if (isUpdate) db.update(home, updateProps);
+            db.save(home);
+            db.commitTransaction();
+        } finally {
+            db.endTransaction();
         }
-
-        home.setLocation(((Player)sender).getLocation());
-
-        plugin.getDatabase().save(home);
-
+        
         return true;
     }
 }
