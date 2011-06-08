@@ -1,6 +1,7 @@
 
 package com.dinnerbone.bukkit.home;
 
+import com.dinnerbone.bukkit.home.commands.ForgetHomeCommand;
 import com.dinnerbone.bukkit.home.commands.GoHomeCommand;
 import com.dinnerbone.bukkit.home.commands.ListHomesCommand;
 import com.dinnerbone.bukkit.home.commands.SetHomeCommand;
@@ -23,6 +24,7 @@ public class HomeBukkit extends JavaPlugin {
 
         getCommand("listhomes").setExecutor(new ListHomesCommand(this));
         getCommand("sethome").setExecutor(new SetHomeCommand(this));
+        getCommand("forgethome").setExecutor(new ForgetHomeCommand(this));
         getCommand("gohome").setExecutor(new GoHomeCommand(this));
 
         setupDatabase();
