@@ -21,7 +21,7 @@ public class GoHomeCommand implements CommandExecutor {
 
         if (player == null) {
             return true;
-        } else if ((player != sender) && (!sender.isOp())) {
+        } else if ((player != sender) && (!player.hasPermission("homebukkit.home.other"))) {
             sender.sendMessage(ChatColor.RED + "You don't have permission to go to other players homes");
             return true;
         } else if (!(sender instanceof Player)) {
@@ -32,7 +32,10 @@ public class GoHomeCommand implements CommandExecutor {
         }
 
         String name = args[0];
-
+        if(player.hasPermission("homebukkit.home.self")){
+        	player.sendMessage("you dont have permission to go to your home");
+        	return true;
+        }
         Home home = plugin.getDatabase().find(Home.class).where().ieq("name", name).ieq("playerName", player.getName()).findUnique();
 
         if (home == null) {
