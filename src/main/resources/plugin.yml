@@ -1,6 +1,6 @@
 name: HomeBukkit
 main: com.dinnerbone.bukkit.home.HomeBukkit
-version: 0.0.1
+version: 0.0.2
 website: http://www.bukkit.org
 author: The Bukkit Team
 database: true
@@ -22,3 +22,7 @@ commands:
     aliases: [home]
     description: Goes to a home
     usage: /<command> <name> [player]
+  removehome:
+    aliases: [removehome]
+    description: Removes a home
+    usage: /<command> <name>
