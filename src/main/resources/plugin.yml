@@ -22,3 +22,40 @@ commands:
     aliases: [home]
     description: Goes to a home
     usage: /<command> <name> [player]
+permissions:
+  homebukkit.set:
+    description: allows the player to set homes
+    children:
+          homebukkit.set.self: true
+          homebukkit.set.other: true
+  homebukkit.set.self:
+    description: Allows the player to set their own home
+  homebukkit.set.other:
+    description: Allows the player to set other peoples homes
+  homebukkit.list:
+    description: Allows the player to list theirs and other players homes
+    children: 
+          homebukkit.list.self:true
+          homebukkit.list.other:true
+  homebukkit.list.self:
+    description: Allows the player to list their homes
+  homebukkit.list.other:
+     description: Allows the player to list others homes
+  homebukkit.home:
+    description: allows the player to teleport to his/others homes
+    chidren:
+         homebukkit.set.self:true
+         homebukkit.set.other:true
+  homebukkit.home.self:
+    description: Allows the player to teleport to their home
+  homebukkit.home.other:
+    description: Allows the player to teleport to other players home
+
+  homebukkit.*:
+    description: Gives all permissions for HomeBukkit
+    default: op
+    children:
+      homebukkit.set: true
+      homebukkit.list: true
+      homebukkit.home: true
+  
