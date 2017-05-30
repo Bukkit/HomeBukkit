@@ -14,6 +14,12 @@ commands:
     usage: |
            /<command> <name> [player]
            Example: /<command> BeachHouse
+  forgethome:
+    aliases: [delhome, rmhome]
+    description: Forgets a home of the given name
+    usage: |
+           /<command> <name> [player]
+           Example: /<command> BeachHouse
   listhomes:
     aliases: [homes]
     description: Lists all homes that you own
